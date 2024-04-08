@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+
+<div class="w-full py-6 space-y-6 md:py-12">
+    <div class="container space-y-6 px-4 md:px-6">
+        <div class="grid gap-6 md:gap-8 lg:grid-cols-12 lg:gap-12">
+            <div class="flex items-center space-x-4 lg:col-span-3">
+                <img
+                        src="/placeholder.svg"
+                        alt="Poster"
+                        width="200"
+                        height="300"
+                        class="aspect-poster overflow-hidden rounded-xl object-cover object-center border border-gray-100 w-[200px] dark:border-gray-800"
+                />
+            </div>
+            <div class="grid gap-2 lg:col-span-9">
+                <div class="space-y-2">
+                    <h1 class="text-3xl font-bold tracking-tighter sm:text-5xl">The Journey of a Lifetime</h1>
+                    <p class="text-gray-500 dark:text-gray-400">Adventure, Drama</p>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-4 lg:grid-cols-1fr_2fr lg:gap-0">
+                    <dl class="grid gap-1">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Director</dt>
+                        <dd class="text-sm font-medium">Samantha Lee</dd>
+                    </dl>
+                    <dl class="grid gap-1">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Writer</dt>
+                        <dd class="text-sm font-medium">Nancy Meyers, David Benioff</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="grid gap-4 lg:grid-cols-12 lg:gap-8">
+            <div class="space-y-2 lg:col-span-3">
+                <h3 class="text-xl font-bold tracking-tighter sm:text-2xl md:text-3xl">The Cast</h3>
+            </div>
+            <div class="grid gap-4 lg:col-span-9 lg:grid-cols-2">
+                <div class="flex items-start gap-4">
+                    <img
+                            src="/placeholder.svg"
+                            alt="Actor"
+                            width="150"
+                            height="200"
+                            class="aspect-person overflow-hidden rounded-lg object-cover object-center border border-gray-100 dark:border-gray-800"
+                    />
+                    <div class="space-y-1">
+                        <h4 class="font-semibold">Samantha Lee</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            As a first-time director, Samantha Lee brings a fresh perspective to the film industry.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <img
+                            src="/placeholder.svg"
+                            alt="Actor"
+                            width="150"
+                            height="200"
+                            class="aspect-person overflow-hidden rounded-lg object-cover object-center border border-gray-100 dark:border-gray-800"
+                    />
+                    <div class="space-y-1">
+                        <h4 class="font-semibold">Samantha Lee</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            As a first-time director, Samantha Lee brings a fresh perspective to the film industry.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <img
+                            src="/placeholder.svg"
+                            alt="Actor"
+                            width="150"
+                            height="200"
+                            class="aspect-person overflow-hidden rounded-lg object-cover object-center border border-gray-100 dark:border-gray-800"
+                    />
+                    <div class="space-y-1">
+                        <h4 class="font-semibold">Samantha Lee</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            As a first-time director, Samantha Lee brings a fresh perspective to the film industry
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid gap-4 lg:grid-cols-12 lg:gap-8">
+            <div class="space-y-2 lg:col-span-3">
+                <h3 class="text-xl font-bold tracking-tighter sm:text-2xl md:text-3xl">The Plot</h3>
+            </div>
+            <div class="space-y-4 text-gray-500 dark:text-gray-400 lg:col-span-9">
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+<div>
+    {#            여기서는 폴더가 1번부터 시작하니까 i+1 #}
+    {#                포스터마다 눌렀을 때 하이퍼링크가 걸려야됨#}
+    <img
+            {#                        포스터 폴더 안에  poster 라는 파일로 이름 통일#}
+            src="static/images/movies/{{ post_id }}/poster/poster.jpg"
+            alt="Movie Poster {{ post_id }}"
+            width="300"
+            height="300"
+    />
+    <div class="flex justify-between items-center mb-1">
+        {#                    영화순위#}
+        <span class="text-lg font-bold">{{ post_id }}</span>
+
+    </div>
+
+</div>
+<div>
+    {{title,director,actors,genres,summary }}
+</div>
+
+<div>
+    {{ positive_reviews_list[1] }}
+</div>
+<div>
+    {{ negative_reviews_list[4] }}
+</div>
+<p> 행전체차지 블록요소</p>
+<pre> 타이핑한 그대로 출력해주느네
+ㄴㅇㄹ</pre>
+<span> 해당하는 부분만 차지 인라인</span>
+<span> 해당하는 부분만 차지 인라인</span>
+
+{#가지고 있는 이미지들 출력#}
+
+<div style="color: black; text-align: center; font-size: 24px; margin-bottom: 10px;">긍정 워드클라우드</div>
+<img src="static/images/movies/{{ post_id }}/positive_wordcloud.jpg" alt="Positive Word Cloud" style="width: 300px; height: 300px;">
+
+
+<div style="color: black; text-align: center; font-size: 24px; margin-bottom: 10px;">부정 워드클라우드</div>
+<img src="static/images/movies/{{ post_id }}/negative_wordcloud.jpg" alt="Negative Word Cloud" style="width: 300px; height: 300px;">
+
+<div style="color: black; text-align: center; font-size: 24px; margin-bottom: 10px;">긍정</div>
+<img src="static/images/movies/{{ post_id }}/positive.png" alt="positive" style="width: 300px; height: 300px;">
+
+<div style="color: black; text-align: center; font-size: 24px; margin-bottom: 10px;">부정</div>
+<img src="static/images/movies/{{ post_id }}/negative.png" alt="negative" style="width: 300px; height: 300px;">
+

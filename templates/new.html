@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>문의하기-movielens </title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <style>
+
+
+
+
+        button:disabled {
+            background-color: grey;
+        }
+        .question-contents-area{
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+
+
+
+    </style>
+    <script>
+
+        function toggleButtonState()
+        {   const textarea= document.getElementById('input');
+            const target = document.getElementById('primary-btn');
+            const email= document.getElementById('email');
+
+            if(email.value.length> 0  && textarea.value.length>0)
+            {
+                target.disabled = false;
+                target.style.backgroundColor = '#11557C'
+            } else
+            {
+                target.disabled = true;
+                target.style.backgroundColor = 'gray';
+            }
+        };
+
+
+
+    </script>
+</head>
+<body class="is-preload">
+<div >
+
+
+    <div class="question-contents-area"><span class="text-3xl">문의/제안 내용</span></div>
+
+         <div>
+             <textarea  id="input"  placeholder="누락된 콘텐츠 또는 잘못된 콘텐츠를 알려주세요.해당 콘텐츠의 제목을 정확히 입력해주셔야 빠른 처리가 가능합니다." class="renewal-input-contents" style="height: 241px; width: 434px;" ></textarea>
+
+        </div>
+
+        <input oninput="toggleButtonState()"  id="email" placeholder="이메일 주소 입력" type="email" class="renewal-input"/>
+
+
+        <button  style="background-color: gray"  id='primary-btn' disabled type="button">보내기</button>
+    <div><a href="#" class="icon brands fa-github"><span class="label">github</span></a></div>
+
+
+</div>
+<!-- -->
+<!--두가지 내용 창이 다 입력 되었을 때만 보내기 버튼 활성화 -->
+<!--버튼이 눌렸을 때 데이터베이스로 내용과 받을 이메일 저장 -->
+</body>
+</html>
+{#    요소 간의 간격을 조절할 때는 margin을 주로 사용하지만, 내부 여백을 조절하고 싶을 때는 padding을 사용합니다.#}
+
+{#<form id="signup-form" method="post" action="#">	</form>#}

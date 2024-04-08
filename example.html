@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+ <HTML>
+ <HEAD> <META charset="UTF-8">
+     <TITLE>테이블 연습</TITLE>
+     </HEAD>
+ <BODY>
+ <form action="#" id="input_form" method="post">
+     <input type="text" required placeholder="반드시 입력하세요." /><br />
+     <input type="email" placeholder="some@email.com" /><br />
+     <input type="date" min="2010-08-14" max="2013-12-31" placeholder="2010-08-14"/><br />
+     <input type="range" min="0" max="50" value="10" /><br />
+     <input type="search" placeholder="Search..." x-webkit-speech/><br />
+     <input type="tel" placeholder="(011) 222-3333" pattern="^\(?\d{3}\)?[-\s]\d{3,4}[-\s]\d{4}$" /><br />
+     <input type="color" placeholder="예) #bbbbbb" /><br />
+     <input type="number" step="1" min="-5" max="10" value="0" /> <br />
+     <select multiple>
+     <option>선택 1
+     <option>선택 2<option>선택 3
+     </select><br>
+     <input type="radio" name="data" multiple />a <input type="radio" name="data" multiple />b <br />
+     <input type="submit" value=" 확인 "/>
+     <input type="reset" value=" 취소 "/>
+     </form>
+
+ <label>도시 이름 <input list="cities"></label>
+ <datalist id="cities">
+
+         <select>
+             <option value="Paris">Paris</option>
+             <option value="London">London</option>
+             <option value="Berlin">Berlin</option>
+             <option value="New York">New York</option>
+             <option value="Tokyo">Tokyo</option>
+             <option value="Sydney">Sydney</option>
+             <option value="Johannesburg">Johannesburg</option>
+         </select>
+
+ </datalist>
+
+ </BODY>
+ </HTML>
