@@ -70,19 +70,18 @@
 {#                1번#}
 {#                영화배우들이 있는 actors 파일에서 1_1이미지나 #}
                 {% for i in range(1, file_count+1) %}
-                    <div class="flex items-start gap-4">
+                    <div >
     {#                    배우는 1_1.jpg형식으로 저장됨#}
 {#                        어떤 폴더에서 특정배우 이미지를 가져오려면?#}
 {#                        div 사이즈어디까지 인지#}
-                        <div style=  "width: 400px; padding: 10px;border: 3px solid black;"   >
+                        <div style=  "height: 200px; width: 200px; padding: 1px;border: 3px; solid: black;"   >
 {#                            이미지 크기가 전부 다른데 이걸 한가지로 고정#}
                         <img
                                 src="static/images/movies/{{ post_id }}/actors/{{ post_id }}_{{ i }}.jpg"
                                 alt="Actor"
-                                width="100"
-                                object-fit="fill"
+                                class="rounded-xl  object-fill object-center w-full h-full"
 
-                                class="aspect-poster overflow-hidden rounded-xl object-cover object-center border border-gray-100 w-[200px] dark:border-gray-800"
+
 
                         />
                         </div>
@@ -116,14 +115,15 @@
 
         </div>
 {#    위아래로 말고 양옆으로 표출할때는 display 속성#}
-
+{#리뷰가 먼저 나오는게 좋을지 아니면 워드클라우드가 먼저 나오는게 좋을지 배치#}
         <span style="color: black; text-align: center; font-size: 24px; margin-bottom: 10px;">긍정 워드클라우드</span>
         <div style="display: flex">
         <img src="static/images/movies/{{ post_id }}/positive_wordcloud.jpg" alt="Positive Word Cloud" style="width: 300px; height: 300px;">
 
-{#    화면에 리뷰가 나오는건 되는데 이를 #}
+{#    화면에 리뷰가 나오는건 되는데 이를 다음 버튼 눌렀을 때 다음리뷰로 넘어가게 #}
         <span>{{ positive_reviews_list[0] }}</span>
             <button id="nextButton">다음</button>
+            <button id="beforeButton">이전</button>
 
         </div>
 
@@ -131,9 +131,17 @@
         <div style="display: flex">
         <img src="static/images/movies/{{ post_id }}/negative_wordcloud.jpg" alt="Negative Word Cloud" style="width: 300px; height: 300px;">
 {#            리뷰가 나오고 1번부터 10개까지 나오고  버튼을 눌렀을때 다음 리뷰 11-20 로 가게하고 싶은데#}
-            <span>{{ negative_reviews_list[0] }}</span>
-            <button id="nextButton">다음</button>
+            <span>{{ negative_reviews_list[0] }}
+            </span>
+{#     리뷰가 10개씩출력 되고       버튼 눌렀을 때 리뷰가 이동하게#}
+            <button type="button" id="nextButton">
+                <img src="static/beforebutton.png" height="50px" width="50px" alt="이전" onclick="" >
+            </button>
+            <button type="button" id="nextButton">
+                <img src="static/nextbutton.png" height="50px" width="50px" alt="다음" onclick="" >
+            </button>
         </div>
+
         <div style="display: flex">
 
         <span style="color: black; text-align: center; font-size: 24px; margin-bottom: 10px;">긍정리뷰에서 단어
