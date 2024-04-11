@@ -49,7 +49,7 @@ def review(post_id):
     # 여부분에서 일단 리뷰csv파일 읽어오기
     df = pd.read_csv(f'static/images/movies/{post_id}/{post_id}.csv')
     # 긍정부정리뷰
-    selected_columns = df[['sentiment_predicted','Review']]
+    selected_columns = df[['sentiment_predicted','Review','category']]
     positive_reviews_df = selected_columns[selected_columns['sentiment_predicted'] == 1]
     negative_reviews_df= selected_columns[selected_columns['sentiment_predicted'] == 0]
 
@@ -58,9 +58,13 @@ def review(post_id):
     negative_reviews_list = negative_reviews_df['Review'].tolist()
     # 카테고리
     # 긍정리뷰에서만 선택
-
+     positive_category_story = positive_reviews_df[positive_reviews_df['category'] == 'story']['Review'].tolist()
+    positive_category_directing = positive_reviews_df[positive_reviews_df['category'] == 'directing']['Review'].tolist()
+    positive_category_actor = positive_reviews_df[positive_reviews_df['category'] == 'actor']['Review'].tolist()
     # 부정리뷰에서만
-
+     negative_category_story = negative_reviews_df[negative_reviews_df['category'] == 'story']['Review'].tolist()
+    negative_category_directing = negative_reviews_df[negative_reviews_df['category'] == 'directing']['Review'].tolist()
+    negative_category_actor = negative_reviews_df[negative_reviews_df['category'] == 'actor']['Review'].tolist()
     # 영화정보 가져오기
     df2 = pd.read_csv('static/images/updated_weekly_box_office_details.csv')
     selected_columns = df2[['title','director','actors','genres','summary']]
@@ -76,8 +80,10 @@ def review(post_id):
     # 리뷰에서 긍정비율을 표시하면 좋겟다
     # 영화배우사진이 몇장있는지 확인해야되는데??
     # render_template 기능을 사용하면, 프론트로 변수를 전송할 수 잇음
-    return render_template('review.html',post_id=post_id,positive_reviews_list=positive_reviews_list,negative_reviews_list=negative_reviews_list
-                           ,title=title,director=director,actors=actors,genres=genres,summary=summary,file_count=file_count)
+    render_template('review.html',post_id=post_id,positive_reviews_list=positive_reviews_list,negative_reviews_list=negative_reviews_list
+                           ,title=title,director=director,actors=actors,genres=genres,summary=summary,file_count=file_count,recommend=recommend
+                           ,positive_category_actor=positive_category_actor,positive_category_directing=positive_category_directing,positive_category_story=positive_category_story
+                           ,negative_category_actor=negative_category_actor,negative_category_directing=negative_category_directing,negative_category_story=negative_category_story)
 
 
 #
