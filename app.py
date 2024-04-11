@@ -58,29 +58,32 @@ def review(post_id):
     negative_reviews_list = negative_reviews_df['Review'].tolist()
     # 카테고리
     # 긍정리뷰에서만 선택
-     positive_category_story = positive_reviews_df[positive_reviews_df['category'] == 'story']['Review'].tolist()
+    # story,directing,actor 칼럼에서 리뷰만
+    positive_category_story = positive_reviews_df[positive_reviews_df['category'] == 'story']['Review'].tolist()
     positive_category_directing = positive_reviews_df[positive_reviews_df['category'] == 'directing']['Review'].tolist()
     positive_category_actor = positive_reviews_df[positive_reviews_df['category'] == 'actor']['Review'].tolist()
+    # 부정리뷰에서만 선택
     # 부정리뷰에서만
-     negative_category_story = negative_reviews_df[negative_reviews_df['category'] == 'story']['Review'].tolist()
+    negative_category_story = negative_reviews_df[negative_reviews_df['category'] == 'story']['Review'].tolist()
     negative_category_directing = negative_reviews_df[negative_reviews_df['category'] == 'directing']['Review'].tolist()
     negative_category_actor = negative_reviews_df[negative_reviews_df['category'] == 'actor']['Review'].tolist()
+
     # 영화정보 가져오기
     df2 = pd.read_csv('static/images/updated_weekly_box_office_details.csv')
-    selected_columns = df2[['title','director','actors','genres','summary']]
+    selected_columns = df2[['title','director','actors','genres','summary','recommend']]
     # 인덱스니까 0-9번 우리는 1-10순위영화
     title=(selected_columns['title'].tolist())[post_id-1]
     director=(selected_columns['director'].tolist())[post_id-1]
     actors=(selected_columns['actors'].tolist())[post_id-1]
     genres=(selected_columns['genres'].tolist())[post_id-1]
     summary=(selected_columns['summary'].tolist())[post_id-1]
+    recommend=(selected_columns['recommend'])[post_id-1]
     # str을 list로 변환
     actors = [s for s in actors.split(",") if s]
     # index,Review,category,sentiment_predicted
     # 리뷰에서 긍정비율을 표시하면 좋겟다
-    # 영화배우사진이 몇장있는지 확인해야되는데??
-    # render_template 기능을 사용하면, 프론트로 변수를 전송할 수 잇음
-    render_template('review.html',post_id=post_id,positive_reviews_list=positive_reviews_list,negative_reviews_list=negative_reviews_list
+    # 영화배우사진이 몇장 있는지 확인해야되는데??file_count
+    return render_template('review.html',post_id=post_id,positive_reviews_list=positive_reviews_list,negative_reviews_list=negative_reviews_list
                            ,title=title,director=director,actors=actors,genres=genres,summary=summary,file_count=file_count,recommend=recommend
                            ,positive_category_actor=positive_category_actor,positive_category_directing=positive_category_directing,positive_category_story=positive_category_story
                            ,negative_category_actor=negative_category_actor,negative_category_directing=negative_category_directing,negative_category_story=negative_category_story)
@@ -98,9 +101,7 @@ def url_encode_filter(s):
 app.jinja_env.filters['url_encode'] = url_encode_filter
 
 # 파일 이름에서 숫자 추출
-def extract_number(filename):
-    match = re.search(r'\d+', filename)
-    return int(match.group()) if match else 0
+
 
 # URL에 적합하게 영화 제목 변환
 def format_movie_title(title):
