@@ -4,27 +4,23 @@
     <meta charset="UTF-8" />
     <title>review</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"
     />
   </head>
   <body>
-    {#return
-    render_template('review.html',post_id=post_id,positive_reviews_list=positive_reviews_list,negative_reviews_list=negative_reviews_list
-    ,title=title,director=director,actors=actors,genres=genres,summary=summary)#}
 
     <div class="w-full py-6 space-y-6 md:py-12">
       <div class="container space-y-6 px-4 md:px-6">
+
         <div class="grid gap-6 md:gap-8 lg:grid-cols-12 lg:gap-12">
           <div class="flex items-center space-x-4 lg:col-span-3">
             {# 포스터사진 {{ post_id }}#}
             <img
               src="static/images/movies/{{ post_id }}/poster/poster.jpg"
               alt="Poster"
-              width="300"
-              height="400"
-              class="aspect-poster overflow-hidden rounded-xl object-cover object-center border border-gray-100 w-[200px] dark:border-gray-800"
+              style="width: 300px; height: 400px; object-fit: fill; border-radius: 10px"
             />
+
           </div>
           {# 영화별#}
           <div class="grid gap-2 lg:col-span-9">
@@ -32,21 +28,43 @@
               <h1 class="text-3xl font-bold tracking-tighter sm:text-5xl">
                 {{ title }}
               </h1>
+                <div style="display: flex">
               <p class="text-gray-500 dark:text-gray-400">{{ genres }}</p>
+                </div>
             </div>
+
             <div
               class="grid md:grid-cols-2 md:gap-4 lg:grid-cols-1fr_2fr lg:gap-0"
             >
               {# director#}
+
               <dl class="grid gap-1">
-                <dt
-                  class="text-sm font-medium text-gray-500 dark:text-gray-400"
-                >
-                  감독
-                </dt>
-                <dd class="text-sm font-medium">{{ director }}</dd>
-                {# 감독사진도 넣을까 고민#}
+
+                  <dt style=" font-weight: bold;">감독  </dt>
+                  <dt class="grid gap-1">
+                     {{ director }}
+                  </dt>
+{#                  img태그로 감독사진 넣기#}
+
               </dl>
+                <dl>
+                    <dt class="grid gap-1">
+{##                       flask에서 반복문#}
+                        추천작품
+
+                    </dt>
+                <dt >
+<!--                     {{ recommend }}
+ -->
+                </dt>
+                </dl>
+                    <img
+                            src="static/images/movies/{{ post_id }}/director/{{ post_id }}_director.jpg"
+                            alt="Poster"
+                            style="width: 150px; height: 250px; object-fit: fill;"
+                    />
+
+
             </div>
           </div>
         </div>
@@ -107,25 +125,33 @@
         </div>
         {# 위아래로 말고 양옆으로 표출할때는 display 속성#} {#리뷰가 먼저
         나오는게 좋을지 아니면 워드클라우드가 먼저 나오는게 좋을지 배치#}
-        <span
-          style="
-            color: black;
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 10px;
-          "
-          >긍정 워드클라우드</span
-        >
+
         <div
           class="positive_field"
           style="width: 100%; display: flex; align-items: center"
         >
+            <div
+                    class="positive_review_container"
+                    style=" display: flex; flex-direction: column"
+            >
+                <h3
+                        class="text-xl font-bold tracking-tighter sm:text-2xl md:text-3xl"
+                >
+                    긍정워드클라우드
+                </h3>
+                <br>
           <img
             src="static/images/movies/{{ post_id }}/positive_wordcloud.jpg"
             alt="Positive Word Cloud"
             style="width: 300px; height: 300px; margin-right: 30px"
           />
 
+
+{#            긍정워드클라우드#}
+<</div>
+            <div>
+                <pre>  </pre>
+            </div>
           <div
             class="positive_review_container"
             style="width: 100%; display: flex; flex-direction: column"
@@ -171,25 +197,35 @@
           </div>
         </div>
 
-        <span
-          style="
-            color: black;
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 10px;
-          "
-          >부정 워드클라우드</span
-        >
+{#부정워드클라우드#}
+{#          <div#}
+{#                  class="negative_field"#}
+{#                  style="width: 100%; display: flex; align-items: center; flex-direction: column;"#}
+{#          > grid 방식으로는 어렵?#}
         <div
           class="negative_field"
           style="width: 100%; display: flex; align-items: center"
         >
+
+            <div
+                    class="positive_review_container"
+                    style=" display: flex; flex-direction: column"
+            >
+                <h3
+                        class="text-xl font-bold tracking-tighter sm:text-2xl md:text-3xl"
+                >
+                    부정워드클라우드
+                </h3>
+                <br>
           <img
             src="static/images/movies/{{ post_id }}/negative_wordcloud.jpg"
             alt="Negative Word Cloud"
             style="width: 300px; height: 300px; margin-right: 30px"
           />
-
+</div>
+            <div>
+                <pre>  </pre>
+            </div>
           <div
             class="negative_review_container"
             style="width: 100%; display: flex; flex-direction: column"
@@ -243,7 +279,7 @@
               font-size: 24px;
               margin-bottom: 10px;
             "
-            >긍정리뷰에서 단어
+            >긍정리뷰에서 반복된 단어
             <img
               src="static/images/movies/{{ post_id }}/positive.png"
               alt="positive"
@@ -257,16 +293,28 @@
               font-size: 24px;
               margin-bottom: 10px;
             "
-            >부정리뷰에서 단어
+            >부정리뷰에서 반복된 단어
             <img
               src="static/images/movies/{{ post_id }}/negative.png"
               alt="negative"
               style="width: 500px; height: 300px"
           /></span>
         </div>
+<!--  카테고리 -->
+      <div>
 
+          <span> {{ positive_category_actor[0] }}</span> <br>
+            <span> {{ positive_category_story[0] }}</span> <br>
+            <span> {{ positive_category_directing[0] }}</span>
+      </div>
+      <div>
+          <span> {{ negative_category_actor[0] }}</span> <br>
+          <span> {{ negative_category_story[0] }}</span> <br>
+          <span> {{ negative_category_directing[0] }}</span>
+      </div>
         {# 카테고리별로 묶었을 때 나오는 리뷰들#} {# 긍정리뷰에서 카테고리가
-        story,actor,directing#} {# 부정리뷰에서 카테고리가
+        story,actor,directing#}
+          {# 부정리뷰에서 카테고리가
         story,actor,directing#}
       </div>
     </div>
@@ -339,3 +387,4 @@
     </script>
   </body>
 </html>
+
