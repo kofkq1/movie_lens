@@ -6,6 +6,8 @@
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"
     />
+
+
   </head>
   <body>
 
@@ -279,7 +281,7 @@
               font-size: 24px;
               margin-bottom: 10px;
             "
-            >긍정리뷰에서 반복된 단어
+            ><h1 class="text-3xl font-bold tracking-tight">긍정반복</h1>
             <img
               src="static/images/movies/{{ post_id }}/positive.png"
               alt="positive"
@@ -293,7 +295,7 @@
               font-size: 24px;
               margin-bottom: 10px;
             "
-            >부정리뷰에서 반복된 단어
+            ><h1 class="text-3xl font-bold tracking-tight">부정반복</h1>
             <img
               src="static/images/movies/{{ post_id }}/negative.png"
               alt="negative"
@@ -301,23 +303,90 @@
           /></span>
         </div>
 
-      <div>
-
-          <span> {{ positive_category_actor[0] }}</span> <br>
-            <span> {{ positive_category_story[0] }}</span> <br>
-            <span> {{ positive_category_directing[0] }}</span>
-      </div>
-      <div>
-          <span> {{ negative_category_actor[0] }}</span> <br>
-          <span> {{ negative_category_story[0] }}</span> <br>
-          <span> {{ negative_category_directing[0] }}</span>
-      </div>
+{#      <div>#}
+{#            <div>긍정</div>#}
+{#          <span> {{ positive_category_actor[0] }}</span> <br>#}
+{#            <span> {{ positive_category_story[0] }}</span> <br>#}
+{#            <span> {{ positive_category_directing[0] }}</span>#}
+{#      </div>#}
+{#      <div>#}
+{#          <div>부정</div>#}
+{#          <span> {{ negative_category_actor[0] }}</span> <br>#}
+{#          <span> {{ negative_category_story[0] }}</span> <br>#}
+{#          <span> {{ negative_category_directing[0] }}</span>#}
+{#      </div>#}
         {# 카테고리별로 묶었을 때 나오는 리뷰들#} {# 긍정리뷰에서 카테고리가
         story,actor,directing#}
           {# 부정리뷰에서 카테고리가
         story,actor,directing#}
+          <h1 class="text-3xl font-bold tracking-tight">Movie categories</h1>
+{#      긍정카테고리#}
+              <button class="hover:bg-yellow-200 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                      id="story">
+                  각본
+              </button>
+              <button class="hover:bg-yellow-200 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                      id="actor">
+                  배우
+              </button>
+              <button
+                      class="hover:bg-yellow-200  inline-flex items-center justify-center whitespace-nowrap text-sm font-medium  border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                      id="directing">연출
+              </button>
+{#여기에 이제 카테고리별로 출력#}
+{#      카테고리 출력되는 부분#}
+          <div
+                  class="category_field"
+                  style="width: 70%; display: flex; flex-direction: column"
+          >
+              <ul
+
+                      class="category"
+                      style="
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                height: 500px;
+                border: 1px solid black;
+                border-radius: 10px;
+                overflow-y: auto;
+              "
+              >
+              </ul>
+              <div
+                      class="button_container"
+                      style="
+                display: flex;
+                justify-content: center;
+                gap: 30px;
+                margin-top: 10px;
+              "
+              >
+{#                  카테고리 이전 #}
+                  <button type="button" id="prev-button">
+                      <img
+                              src="static/beforebutton.png"
+                              height="50px"
+                              width="50px"
+                              alt="이전"
+                      />
+                  </button>
+{#                  카테고리 다음#}
+                  <button type="button" id="next-button">
+                      <img
+                              src="static/nextbutton.png"
+                              height="50px"
+                              width="50px"
+                              alt="다음"
+                      />
+                  </button>
+              </div>
+          </div>
+
+      </div>
       </div>
     </div>
+
     <script>
       const PAGE_SIZE = 10;
       const positive_reviews_list = {{ positive_reviews_list | safe }};
@@ -325,6 +394,7 @@
 
       let positivePageNumber = 0;
       let negativePageNumber = 0;
+
 
       const renderPage = (type) => {
         if (type === 'positive') {
@@ -384,6 +454,93 @@
 
       renderPage("positive");
       renderPage("negative");
+
+
+       </script>
+
+
+
+    <script>
+
+        {#파이썬 변수를 자바스크립트 변수로 바꿈#}
+        const positive_category_story = {{ positive_category_story | safe }};
+        const positive_category_actor = {{ positive_category_actor | safe }};
+        const positive_category_directing = {{ positive_category_directing | safe }};
+        {#카테고리 버튼#}
+        const story = document.getElementById('story');
+        const actor = document.getElementById('actor');
+        const directing = document.getElementById('directing');
+        // 라디오 버튼처럼 동작
+        // 세개중 하나만 선택할 수 있게 만들기
+        const buttons = [story, actor, directing];
+
+        {#왜 함수가 작동하지 않는거지 ...#}
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => {
+                    btn.style.color = 'black';
+                });
+                //  해당하는 애 출력하는 법?
+                button.style.color = 'red';
+                renderPage(button.innerText);
+            });
+        });
+
+        const PAGE_SIZE = 10;
+
+        let currentPage = 0;
+        const reviewsPerPage = 10;
+
+        const renderPage = (type) =>  {
+            if (type==='actor'){
+                const reviewBox = document.querySelector('.category');
+                {#기존리뷰 일단 지우기#}
+                reviewBox.innerHTML = '';
+                for (let i = 0; i < PAGE_SIZE; i++) {
+                    const index = i + currentPage * PAGE_SIZE;
+                    if (index < positive_category_actor.length) {
+                        reviewBox.innerHTML += `<li style="padding: 10px; border: 1px solid lightgray">${positive_category_actor[index]}</li>`;
+                    }
+                }
+            }
+            else if (type === 'directing') {
+                const reviewBox = document.querySelector('.category');
+                reviewBox.innerHTML='';
+                for (let i = 0; i < PAGE_SIZE; i++) {
+                    const index = i + currentPage * PAGE_SIZE;
+                    if (index < positive_category_directing.length) {
+                        reviewBox.innerHTML += `<li style="padding: 10px; border: 1px solid lightgray">${positive_category_directing[index]}</li>`;
+                    }
+                }
+            }
+            else if (type === 'story') {
+                const reviewBox = document.querySelector('.category');
+                reviewBox.innerHTML='';
+                for (let i = 0; i < PAGE_SIZE; i++) {
+                    const index = i + currentPage * PAGE_SIZE;
+                    if (index < positive_category_story.length) {
+                        reviewBox.innerHTML += `<li style="padding: 10px; border: 1px solid lightgray">${positive_category_story[index]}</li>`;
+                    }
+                }
+            }
+        };
+
+        // '다음' 버튼에 클릭 이벤트 리스너 추가
+        document.getElementById('next-button').addEventListener('click', function() {
+            currentPage++;
+        });
+
+        // '이전' 버튼에 클릭 이벤트 리스너 추가
+        document.getElementById('prev-button').addEventListener('click', function() {
+            if (currentPage > 0) {
+                currentPage--;
+            }
+        });
+
+        // 초기 스토리 출력
+        renderPage('story');
+
     </script>
   </body>
 </html>
+
