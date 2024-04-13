@@ -337,7 +337,7 @@
 {#      카테고리 출력되는 부분#}
           <div
                   class="category_field"
-                  style="width: 70%; display: flex; flex-direction: column"
+                  style="width: 100%; display: flex; flex-direction: column"
           >
               <ul
 
@@ -394,7 +394,6 @@
 
       let positivePageNumber = 0;
       let negativePageNumber = 0;
-
 
       const renderPage = (type) => {
         if (type === 'positive') {
@@ -454,14 +453,9 @@
 
       renderPage("positive");
       renderPage("negative");
-
-
-       </script>
-
-
+    </script>
 
     <script>
-
         {#파이썬 변수를 자바스크립트 변수로 바꿈#}
         const positive_category_story = {{ positive_category_story | safe }};
         const positive_category_actor = {{ positive_category_actor | safe }};
@@ -476,22 +470,25 @@
 
         {#왜 함수가 작동하지 않는거지 ...#}
         buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                buttons.forEach(btn => {
-                    btn.style.color = 'black';
-                });
-                //  해당하는 애 출력하는 법?
-                button.style.color = 'red';
-                renderPage(button.innerText);
+            button.addEventListener('click', (e) => {
+              buttons.forEach(btn => {
+                  btn.style.color = 'black';
+              });
+
+              // 카테고리 이동 시 페이지 초기화
+              currentPage = 0;
+              currentCategory = e.target.id;
+              //  해당하는 애 출력하는 법?
+              button.style.color = 'red';
+              renderCategory(currentCategory);
             });
         });
 
-        const PAGE_SIZE = 10;
-
         let currentPage = 0;
+        let currentCategory = 'story';
         const reviewsPerPage = 10;
 
-        const renderPage = (type) =>  {
+        const renderCategory = (type) => {
             if (type==='actor'){
                 const reviewBox = document.querySelector('.category');
                 {#기존리뷰 일단 지우기#}
@@ -527,18 +524,24 @@
 
         // '다음' 버튼에 클릭 이벤트 리스너 추가
         document.getElementById('next-button').addEventListener('click', function() {
-            currentPage++;
+          // TODO: 마지막 페이지에서 더 안 넘어가도록 처리
+          currentPage++;
+          renderCategory(currentCategory);
         });
 
         // '이전' 버튼에 클릭 이벤트 리스너 추가
         document.getElementById('prev-button').addEventListener('click', function() {
             if (currentPage > 0) {
                 currentPage--;
+                renderCategory(currentCategory);
             }
         });
 
         // 초기 스토리 출력
-        renderPage('story');
+        renderCategory('story');
+        
+        // 페이지 로드 시 스토리 카테고리 버튼이 선택되었다는 스타일 적용
+        story.style.color = 'red';
 
     </script>
   </body>
