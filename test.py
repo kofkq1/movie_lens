@@ -1,13 +1,32 @@
-import glob
-import pandas as pd
-folder_path = "static/images/movies/10/actors"
-# 2_1.jpg
-# 파일속성으로 가져올지
-# 이름규칙으로 가져올지
-file_count = len(glob.glob(folder_path + '/*.jpg'))
-print(file_count)
+import matplotlib.pyplot as plt
 
+# 첫 번째 데이터 세트 준비
+# train
+x1 = [0.274,0.123, 0.131, 0.12, 0.112] # 손실함수
+y1= [0,1,2,3,4]
+x1 = [0.875, 0.875, 0.938, 0.95, 0.96]#정확도
+# test
+# 두 번째 데이터 세트 준비
+x2 = [0.295,0.285 , 0.289, 0.309, 0.33]# 손실함수 val
+x2 = [0.878, 0.888, 0.883, 0.886, 0.88]# 정확도 val
+y2= [0,1,2,3,4]
 
+# 첫 번째 데이터 세트로 그래프 그리기
+plt.plot(y1,x1, label='train_accuracy')
+
+# 두 번째 데이터 세트로 그래프 그리기
+plt.plot( y2,x2, label='test_accuracy')
+
+# 제목과 축 라벨 추가
+plt.title('accuracy')
+plt.xlabel('epoch')
+plt.ylabel('accuracy')
+
+# 범례 추가
+plt.legend()
+
+# 그래프 표시
+plt.show()
 
 
 

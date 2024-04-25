@@ -16,15 +16,17 @@ tokenizer = BertTokenizer.from_pretrained(
     args.pretrained_model_name,
     do_lower_case=False,
 )
+#체크포인트 불러오기
 import torch
 fine_tuned_model_ckpt = torch.load(
     args.downstream_model_checkpoint_fpath,
     map_location=torch.device("cpu")
-)#체크포인트 불러오기
+)
+# 초기화
 from transformers import BertConfig
 pretrained_model_config = BertConfig.from_pretrained(
     args.pretrained_model_name,
-    num_labels=fine_tuned_model_ckpt['state_dict']['model.classifier.bias'].shape.numel(),
+    num_labels=2,
 )
 #어떤걸로 (분류 단어생성) bert사용할 지
 from transformers import BertForSequenceClassification
@@ -41,10 +43,11 @@ def classification(sentence):
     with torch.no_grad():
         outputs = model(**{k: torch.tensor(v) for k, v in inputs.items()})
         prob = outputs.logits.softmax(dim=1)
+        #리뷰별 긍정부정 확률퍼센트 출력
         positive_prob = round(prob[0][1].item(), 4)
         negative_prob = round(prob[0][0].item(), 4)
         pred = 1 if torch.argmax(prob) == 1 else 0
-    return (sentence,pred)
+    return (sentence,pred,positive_prob,negative_prob)
 
 from wordcloud import WordCloud
 
@@ -57,31 +60,33 @@ from wordcloud import WordCloud
 # 리뷰분석결과
 #저장위치 맡게 변경
 for i in range(1,11):
-    print(i)
-    # precondition:영화리뷰가 폴더별로 csv형식으로 저장되어있어야함
-    reviews = pd.read_csv(f'./static/images/movies/{i}/{i}.csv')#영화리뷰csv읽기
-    lst=reviews['Review'].tolist()#list
-    predicted_sentiments = []
-    # 이중 for문 반복인자 확인
-    for j in lst:
-        print((j))
-        # Null값처리
-        # 리뷰를 읽어오다보니 내용이 없는것도 끼어있음
-        if len(j)==0:
-            continue
-        else:
-            predicted_sentiment=classification(j)[1]
-            predicted_sentiments.append(predicted_sentiment)
-    reviews["sentiment_predicted"] = predicted_sentiments
-    #영화리뷰분석결과csv저장
-    # postcondition: 영화리뷰csv에 sentiment_predicted칼럼이 생성되고 그에 맞는 값들 채워짐
-    reviews.to_csv(f'./static/images/movies/{i}/{i}.csv', index=False,encoding='utf-8-sig')#
+    # print(i)
+    # # precondition:영화리뷰가 폴더별로 csv형식으로 저장되어있어야함
+    # reviews = pd.read_csv(f'./static/images/movies/{i}/{i}.csv')#영화리뷰csv읽기
+    # lst=reviews['Review'].tolist()#list
+    # predicted_sentiments = []
+    # # 이중 for문 반복인자 확인
+    # for j in lst:
+    #     print((j))
+    #     # Null값처리
+    #     # 리뷰를 읽어오다보니 내용이 없는것도 끼어있음
+    #     if len(j)==0:
+    #         continue
+    #     else:
+    #         predicted_sentiment=classification(j)[1]
+    #         predicted_sentiments.append(predicted_sentiment)
+    # reviews["sentiment_predicted"] = predicted_sentiments
+    # #영화리뷰분석결과csv저장
+    # # postcondition: 영화리뷰csv에 sentiment_predicted칼럼이 생성되고 그에 맞는 값들 채워짐
+    # reviews.to_csv(f'./static/images/movies/{i}/{i}.csv', index=False,encoding='utf-8-sig')#
 
 
 
 # 워드클라우드
 #     precondition:영화리뷰가 csv형태에서 df로 변환되어야됨
 # 나눔고딕 폰트 파일의 경로 지정
+    reviews = pd.read_csv(f'./static/images/movies/{i}/{i}.csv')#영화리뷰csv읽기
+
     nanum_gothic_font_path = 'NanumGothic.ttf'
 
     wordcloud_directory = f'static/images/movies/{i}'
